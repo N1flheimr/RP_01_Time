@@ -6,6 +6,8 @@ TagManager:
   tags:
   - DamagingObject
   - SlowMotionBubble
+  - Button
+  - Box
   layers:
   - Default
   - TransparentFX

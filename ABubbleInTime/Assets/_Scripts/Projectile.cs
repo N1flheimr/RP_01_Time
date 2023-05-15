@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NifuDev
 {
-    public class Projectile : EnemyDamage, ISlowMotionObject
+    public class Projectile : EnemyDamage,ISlowMotionObject
     {
         [SerializeField] private BoxCollider2D triggerCollider;
         [SerializeField] private float speed;
@@ -23,6 +23,16 @@ namespace NifuDev
             float currentSpeed = speed;
             currentSpeed /= slowDownMult;
             speed = currentSpeed;
+        }
+
+        public void SetSpeed(float newSpeed)
+        {
+            speed = newSpeed;
+        }
+
+        public float GetSpeed()
+        {
+            return speed;
         }
 
         private new void OnTriggerEnter2D(Collider2D collision) {

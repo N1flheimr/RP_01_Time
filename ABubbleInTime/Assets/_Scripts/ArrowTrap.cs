@@ -8,18 +8,29 @@ namespace NifuDev
         [SerializeField] private float attackCooldown;
         [SerializeField] private Transform firePoint;
         [SerializeField] private Transform arrowPrefab;
+
+        [SerializeField] private bool isFacingRight;
         private float cooldownTimer;
 
-        private void Attack() {
+        private void Attack()
+        {
             cooldownTimer = 0;
 
             Transform projectileTransform = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
+
+            if (!isFacingRight)
+            {
+                Projectile arrowProjectile = projectileTransform.GetComponent<Projectile>();
+                arrowProjectile.SetSpeed(-arrowProjectile.GetSpeed());
+            }
         }
 
-        private void Update() {
+        private void Update()
+        {
             cooldownTimer += Time.deltaTime;
 
-            if (cooldownTimer > attackCooldown) {
+            if (cooldownTimer > attackCooldown)
+            {
                 Attack();
             }
         }

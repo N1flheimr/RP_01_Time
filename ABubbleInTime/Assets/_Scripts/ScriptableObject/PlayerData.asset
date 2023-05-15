@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b06f9f3311963024c837b834890b2e24, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  moveSpeed_: 7
+  moveSpeed_: 8
   acceleration_: 10
   deccelaration_: 11
   velPower_: 1.1
   frictionAmount: 0.05
   accelInAir: 0.95
   deccelInAir: 0.135
-  jumpForce_: 13
-  fallClamp_: 8
+  jumpForce_: 12
+  fallClamp_: 10
   coyoteTime: 0.155
   jumpInputBufferTime: 0.105
   jumpApexTimeThreshold: 0.169
   jumpApexMaxSpeedMult: 1.2
   jumpApexAccelerationMult: 1.13
-  gravityScale: 2.8
-  fallGravityMult: 3
-  jumpCutGravityMult: 2
-  jumpApexGravityMult: 0.15
+  gravityScale: 3
+  fallGravityMult: 2
+  jumpCutGravityMult: 2.15
+  jumpApexGravityMult: 0.95
