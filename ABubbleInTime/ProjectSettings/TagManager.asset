@@ -8,6 +8,7 @@ TagManager:
   - SlowMotionBubble
   - Button
   - Box
+  - Floor
   layers:
   - Default
   - TransparentFX

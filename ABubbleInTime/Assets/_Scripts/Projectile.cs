@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NifuDev
 {
-    public class Projectile : EnemyDamage, ISlowMotionObject
+    public class Projectile : MonoBehaviour, ISlowMotionObject
     {
         [SerializeField] private float speed;
         private bool isMovingHorizontally;
@@ -57,11 +57,23 @@ namespace NifuDev
             return speed;
         }
 
-        private new void OnTriggerEnter2D(Collider2D collision) {
-            base.OnTriggerEnter2D(collision);
+        private void OnTriggerEnter2D(Collider2D collision) {
 
-            if (!collision.CompareTag("SlowMotionBubble") && collision.isTrigger && collision.CompareTag("Player")) {
-                Destroy(this.gameObject);
+            if (isMovingHorizontally) {
+                if (!collision.CompareTag("SlowMotionBubble") && collision.isTrigger && collision.CompareTag("Player")) {
+                    Destroy(this.gameObject);
+                }
+            }
+            else {
+                if (collision.CompareTag("Player")) {
+                    collision.GetComponent<Transform>().parent = this.transform;
+                }
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision) {
+            if (!isMovingHorizontally && collision.CompareTag("Player")) {
+                collision.GetComponent<Transform>().parent = null;
             }
         }
     }

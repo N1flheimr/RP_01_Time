@@ -6,7 +6,11 @@ namespace NifuDev
     public class Health : MonoBehaviour
     {
         public void TakeDamage() {
-            Debug.Log("Take damage");
+            Death();
+        }
+
+        public void Death() {
+            GameManager.Instance.RestartScene();
         }
     }
 }
