@@ -3,16 +3,34 @@ using UnityEngine;
 
 namespace NifuDev
 {
-    public class Projectile : EnemyDamage,ISlowMotionObject
+    public class Projectile : EnemyDamage, ISlowMotionObject
     {
-        [SerializeField] private BoxCollider2D triggerCollider;
         [SerializeField] private float speed;
-
+        private bool isMovingHorizontally;
+        private bool isFacingRight;
+        private bool isFacingUp;
 
         private void Update() {
             float movementSpeed = speed * Time.deltaTime;
-            transform.Translate(movementSpeed, 0, 0);
+
+            if (isMovingHorizontally) {
+                if (isFacingRight) {
+                    transform.Translate(movementSpeed, 0, 0);
+                }
+                else {
+                    transform.Translate(-movementSpeed, 0, 0);
+                }
+            }
+            else {
+                if (isFacingUp) {
+                    transform.Translate(0, movementSpeed, 0);
+                }
+                else {
+                    transform.Translate(0, -movementSpeed, 0);
+                }
+            }
         }
+
         public void ActiveSlowMotion(float slowDownMult) {
             float currentSpeed = speed;
             currentSpeed *= slowDownMult;
@@ -25,13 +43,17 @@ namespace NifuDev
             speed = currentSpeed;
         }
 
-        public void SetSpeed(float newSpeed)
-        {
+        public void SetMoveDirection(bool isFacingRight, bool isFacingUp, bool isMovingHorizontally) {
+            this.isFacingRight = isFacingRight;
+            this.isFacingUp = isFacingUp;
+            this.isMovingHorizontally = isMovingHorizontally;
+        }
+
+        public void SetSpeed(float newSpeed) {
             speed = newSpeed;
         }
 
-        public float GetSpeed()
-        {
+        public float GetSpeed() {
             return speed;
         }
 

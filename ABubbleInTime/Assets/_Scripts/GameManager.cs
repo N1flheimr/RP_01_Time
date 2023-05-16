@@ -61,7 +61,6 @@ namespace NifuDev
         public void ButtonPressed()
         {
             buttonLeftToPush--;
-            buttonLeftToPush = Mathf.Max(buttonLeftToPush, 0);
             OnButtonPressed?.Invoke(buttonLeftToPush);
         }
 

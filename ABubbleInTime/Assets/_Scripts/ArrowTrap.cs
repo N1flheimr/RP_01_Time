@@ -9,29 +9,36 @@ namespace NifuDev
         [SerializeField] private Transform firePoint;
         [SerializeField] private Transform arrowPrefab;
 
+        [SerializeField] private bool isHorizontal;
+
         [SerializeField] private bool isFacingRight;
+        [SerializeField] private bool isFacingUp;
         private float cooldownTimer;
 
-        private void Attack()
-        {
-            cooldownTimer = 0;
+        [SerializeField] private int arrowTrapAmmo;
+        [SerializeField] private bool hasInfiniteAmmo;
 
-            Transform projectileTransform = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
 
-            if (!isFacingRight)
-            {
-                Projectile arrowProjectile = projectileTransform.GetComponent<Projectile>();
-                arrowProjectile.SetSpeed(-arrowProjectile.GetSpeed());
-            }
-        }
-
-        private void Update()
-        {
+        private void Update() {
             cooldownTimer += Time.deltaTime;
 
-            if (cooldownTimer > attackCooldown)
-            {
+            if (cooldownTimer > attackCooldown) {
                 Attack();
+            }
+        }
+        private void Attack() {
+            cooldownTimer = 0;
+
+            if (hasInfiniteAmmo || arrowTrapAmmo > 0) {
+                Transform projectileTransform = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
+
+                Projectile arrowProjectile = projectileTransform.GetComponent<Projectile>();
+                arrowProjectile.SetMoveDirection(isFacingRight, isFacingUp, isHorizontal);
+
+                arrowTrapAmmo--;
+            }
+            else {
+                //No ammo left
             }
         }
     }

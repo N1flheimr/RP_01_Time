@@ -25,7 +25,7 @@ namespace NifuDev
 
         private void GameManager_OnButtonPressed(int buttonLeft)
         {
-            if (buttonLeft == 0)
+            if (buttonLeft <= 0)
             {
                 animator.SetBool("IsOpen", true);
             }
