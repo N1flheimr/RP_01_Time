@@ -111,6 +111,7 @@ namespace NifuDev
                 if (Physics2D.OverlapBox(groundCheckPoint_.position, groundCheckSize_, 0, groundLayer_)) {
                     lastOnGroundTime = data.coyoteTime;
                     isGrounded_ = true;
+                    isJumpCut_ = false;
                 }
                 else {
                     isGrounded_ = false;
@@ -170,10 +171,13 @@ namespace NifuDev
             if (rb_.velocity.y < 0) {
                 SetGravityScale(data.gravityScale * data.fallGravityMult);
                 rb_.velocity = new Vector2(rb_.velocity.x, Mathf.Max(rb_.velocity.y, -data.fallClamp_));
+                Debug.Log("Falling");
             }
             else if (isJumpCut_) {
                 SetGravityScale(data.gravityScale * data.jumpCutGravityMult);
                 rb_.velocity = new Vector2(rb_.velocity.x, Mathf.Max(rb_.velocity.y, -data.fallClamp_));
+
+                Debug.Log("JumpCut");
             }
             else if (isJumping_ && Mathf.Abs(rb_.velocity.y) < data.jumpApexTimeThreshold) {
                 SetGravityScale(data.gravityScale * data.jumpApexGravityMult);
