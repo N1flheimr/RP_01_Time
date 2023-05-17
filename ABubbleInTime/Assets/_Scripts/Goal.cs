@@ -7,6 +7,7 @@ namespace NifuDev
     public class Goal : MonoBehaviour
     {
         Animator animator;
+        [SerializeField] private GameObject doorOpenParticleSystem;
 
         private void Awake()
         {
@@ -18,33 +19,28 @@ namespace NifuDev
             if (GameManager.Instance.GetButtonLeftToPush() == 0)
             {
                 animator.SetBool("IsOpen", true);
-            }
-            GameManager.Instance.OnButtonPressed.AddListener(GameManager_OnButtonPressed);
-            GameManager.Instance.OnButtonReleased.AddListener(GameManager_OnButtonPressed);
-        }
 
-        private void GameManager_OnButtonPressed(int buttonLeft)
-        {
-            if (buttonLeft <= 0)
-            {
-                animator.SetBool("IsOpen", true);
+                doorOpenParticleSystem.SetActive(true);
             }
             else
             {
-                animator.SetBool("IsOpen", false);
+
+                doorOpenParticleSystem.SetActive(false);
             }
+            GameManager.Instance.OnDoorOpen.AddListener(GameManager_OnDoorOpen);
+            GameManager.Instance.OnDoorClose.AddListener(GameManager_OnDoorClose);
         }
 
-        private void GameManager_OnButtonReleased(int buttonLeft)
+        private void GameManager_OnDoorOpen()
         {
-            if (buttonLeft == 0)
-            {
-                animator.SetBool("IsOpen", true);
-            }
-            else
-            {
-                animator.SetBool("IsOpen", false);
-            }
+            animator.SetBool("IsOpen", true);
+            doorOpenParticleSystem.SetActive(true);
+        }
+
+        private void GameManager_OnDoorClose()
+        {
+            animator.SetBool("IsOpen", false);
+            doorOpenParticleSystem.SetActive(false);
         }
 
         private void OnTriggerEnter2D(Collider2D collision)

@@ -19,7 +19,7 @@ MonoBehaviour:
   frictionAmount: 0.1
   accelInAir: 0.95
   deccelInAir: 0.135
-  jumpForce_: 13.5
+  jumpForce_: 12
   fallClamp_: 11
   coyoteTime: 0.115
   jumpInputBufferTime: 0.105

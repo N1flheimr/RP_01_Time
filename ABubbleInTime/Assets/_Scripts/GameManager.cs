@@ -10,13 +10,14 @@ namespace NifuDev
     {
         [SerializeField] private GameObject player;
 
-        public UnityEvent<int> OnButtonPressed;
-        public UnityEvent<int> OnButtonReleased;
+        public UnityEvent OnDoorOpen;
+        public UnityEvent OnDoorClose;
 
         public static GameManager Instance;
         [SerializeField] private string sceneName;
 
-        [SerializeField] private GameObject[] buttonArray;
+        [SerializeField] private List<Button> buttonList;
+
         [SerializeField] private int buttonLeftToPush;
         private int totalButton;
 
@@ -34,9 +35,22 @@ namespace NifuDev
 
         private void Start()
         {
-            buttonArray = GameObject.FindGameObjectsWithTag("Button");
-            buttonLeftToPush = buttonArray.Length;
+            GameObject[] buttonGameObjectArray = GameObject.FindGameObjectsWithTag("Button");
+
+            for (int i = 0; i < buttonGameObjectArray.Length; i++)
+            {
+                buttonList.Add(buttonGameObjectArray[i].GetComponent<Button>());
+            }
+
+            foreach (Button button in buttonList)
+            {
+                button.OnButtonPressed.AddListener(Button_OnButtonPressed);
+                button.OnButtonReleased.AddListener(Button_OnButtonReleased);
+            }
+
+            buttonLeftToPush = buttonList.Count;
             totalButton = buttonLeftToPush;
+
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
@@ -52,6 +66,25 @@ namespace NifuDev
             }
         }
 
+        private void Button_OnButtonPressed()
+        {
+            buttonLeftToPush--;
+            if (buttonLeftToPush <= 0)
+            {
+                OnDoorOpen?.Invoke();
+            }
+        }
+
+        private void Button_OnButtonReleased()
+        {
+            buttonLeftToPush++;
+            buttonLeftToPush = Mathf.Min(buttonLeftToPush, totalButton);
+            if (buttonLeftToPush > 0)
+            {
+                OnDoorClose?.Invoke();
+            }
+        }
+
         public void LoadNextStage()
         {
             if (buttonLeftToPush <= 0)
@@ -61,14 +94,14 @@ namespace NifuDev
         public void ButtonPressed()
         {
             buttonLeftToPush--;
-            OnButtonPressed?.Invoke(buttonLeftToPush);
+            OnDoorOpen?.Invoke();
         }
 
         public void ButtonReleased()
         {
             buttonLeftToPush++;
             buttonLeftToPush = Mathf.Min(buttonLeftToPush, totalButton);
-            OnButtonReleased?.Invoke(buttonLeftToPush);
+            OnDoorClose?.Invoke();
         }
 
         public int GetButtonLeftToPush()

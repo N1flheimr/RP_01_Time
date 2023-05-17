@@ -18,26 +18,36 @@ namespace NifuDev
         [SerializeField] private int arrowTrapAmmo;
         [SerializeField] private bool hasInfiniteAmmo;
 
+        [SerializeField] private float arrowSpeed;
 
-        private void Update() {
+        private void Update()
+        {
             cooldownTimer += Time.deltaTime;
 
-            if (cooldownTimer > attackCooldown) {
+            if (cooldownTimer > attackCooldown)
+            {
                 Attack();
             }
         }
-        private void Attack() {
+        private void Attack()
+        {
             cooldownTimer = 0;
 
-            if (hasInfiniteAmmo || arrowTrapAmmo > 0) {
+            if (hasInfiniteAmmo || arrowTrapAmmo > 0)
+            {
                 Transform projectileTransform = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
 
+                SoundManager.PlaySound(SoundManager.SoundType.CannonLaunch);
+
                 Projectile arrowProjectile = projectileTransform.GetComponent<Projectile>();
+
                 arrowProjectile.SetMoveDirection(isFacingRight, isFacingUp, isHorizontal);
+                arrowProjectile.SetSpeed(arrowSpeed);
 
                 arrowTrapAmmo--;
             }
-            else {
+            else
+            {
                 //No ammo left
             }
         }
